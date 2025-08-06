@@ -68,6 +68,12 @@
         "focus": false,
         "panel": "shared"
       }
+    },
+    {
+      "label": "Activate Ultimate Mode",
+      "type": "shell",
+      "command": "code --open-url 'vscode://github.copilot-chat?mode=ultimate'",
+      "problemMatcher": []
     }
   ]
 }

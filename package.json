@@ -23,11 +23,11 @@
     "validate": "next-sitemap --validate"
   },
   "dependencies": {
-    "next": "^15.4.5",
+    "@next": "^15.4.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "typescript": "^5.9.2",
-    "next/font": "^15.1.3",
+    "@next/font": "^15.1.3",
     "framer-motion": "^12.23.12",
     "tailwindcss": "^4.1.11",
     "@tailwindcss/typography": "^0.6.2",
