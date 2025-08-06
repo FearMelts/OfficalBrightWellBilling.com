@@ -1,0 +1,8 @@
+.color-preview {
+  background-color: var(--preview-color, #fff);
+}
+}
+
+.color-preview[data-color] {
+  background-color: attr(data-color color, #fff);
+}

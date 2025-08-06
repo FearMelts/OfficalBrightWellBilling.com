@@ -1,0 +1,17 @@
+.virtualized-list-container {
+  overflow: auto;
+  /* height set inline for dynamic sizing */
+}
+
+.virtualized-list-phantom {
+  position: relative;
+  /* height set inline for dynamic sizing */
+}
+
+.virtualized-list-offset {
+  /* transform set inline for dynamic offset */
+}
+
+.virtualized-list-item {
+  /* height set inline for dynamic sizing */
+}
