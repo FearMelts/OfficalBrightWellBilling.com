@@ -1,7 +1,11 @@
 import { ThemeProvider } from "@/components/theme-provider";
 import { Toaster } from "@/components/ui/toaster";
+import { motion } from 'framer-motion';
+import { AlertCircle, ArrowLeft, CheckCircle, Clock, Code2, FileText, Layers, Lightbulb, RefreshCcw, Settings, Sparkles, Target, Terminal } from "lucide-react";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
+import { useEffect } from "react";
+import { Link, useParams } from "react-router-dom";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"] });
@@ -110,32 +114,7 @@ export default function RootLayout({
     </html>
   );
 }
-/**
- * Individual Phase Detail Page Component
- * Provides comprehensive breakdown of each development phase with full task lists
- */
-import { motion } from 'framer-motion';
-import {
-  AlertCircle,
-  ArrowLeft,
-  CheckCircle,
-  Clock,
-  Code2,
-  FileText,
-  Layers,
-  Lightbulb,
-  RefreshCcw,
-  Settings,
-  Sparkles,
-  Target,
-  Terminal
-} from 'lucide-react';
-import React from 'react';
-import { Link, useParams } from 'react-router-dom';
-
-/**
- * Phase data structure with complete implementation details
- */
+// Phase data type definition
 interface PhaseData {
   id: number;
   title: string;
@@ -151,6 +130,7 @@ interface PhaseData {
   tools: string[];
   deliverables: string[];
   codeSnippets: {
+    [x: string]: Key | null | undefined;
     title: string;
     language: string;
     code: string;
@@ -306,7 +286,7 @@ const phaseData: Record<number, PhaseData> = {
       'tests/'
     ]
   },
-  
+
   2: {
     id: 2,
     title: 'Basic Layout & Routing',
@@ -510,7 +490,7 @@ export function Button({
     md: 'px-4 py-2 text-base',
     lg: 'px-6 py-3 text-lg'
   };
-  
+        
   return (
     <button
       className={\`\${baseClasses} \${variants[variant]} \${sizes[size]} \${className}\`}
@@ -520,7 +500,6 @@ export function Button({
       {loading && <Spinner className="mr-2 h-4 w-4" />}
       {children}
     </button>
-  );
 }`
       }
     ],
@@ -869,12 +848,20 @@ class AIPluginManager {
 /**
  * Phase Detail Page Component
  */
-export default function PhaseDetail() {
+function PhaseDetailPage() {
   const { id } = useParams<{ id: string }>();
-  const phaseId = parseInt(id || '1');
+  const phaseId = Number(id);
   const phase = phaseData[phaseId];
+  const milestone = phase?.milestone;
 
+  // Show "Phase Not Found" if phase is undefined
   if (!phase) {
+    useEffect(() => {
+      console.log("Phase Detail Page Component mounted");
+      return () => {
+        console.log("Phase Detail Page Component unmounted");
+      };
+    }, []);
     return (
       <div className="min-h-screen bg-slate-900 flex items-center justify-center">
         <div className="text-center">
@@ -887,21 +874,21 @@ export default function PhaseDetail() {
     );
   }
 
-  const IconComponent = phase.icon;
+  const IconComponent = phase.icon || Settings;
+
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900">
       {/* Header */}
       <div className="bg-slate-800/50 border-b border-slate-700">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <Link 
+          <Link
             to="/"
             className="inline-flex items-center text-blue-400 hover:text-blue-300 mb-4"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Overview
           </Link>
-          
           <div className="flex items-center gap-4 mb-4">
             <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center">
               <IconComponent className="w-8 h-8 text-white" />
@@ -913,7 +900,6 @@ export default function PhaseDetail() {
               <p className="text-slate-400">{phase.objective}</p>
             </div>
           </div>
-          
           <div className="flex items-center gap-6 text-sm text-slate-400">
             <div className="flex items-center gap-2">
               <Clock className="w-4 h-4" />
@@ -922,7 +908,6 @@ export default function PhaseDetail() {
           </div>
         </div>
       </div>
-
       {/* Content */}
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="grid lg:grid-cols-3 gap-8">
@@ -970,7 +955,7 @@ export default function PhaseDetail() {
                 <Target className="w-5 h-5 mr-2 text-blue-400" />
                 Implementation Tasks
               </h2>
-              
+
               <div className="space-y-6">
                 {phase.tasks.map((category, categoryIndex) => (
                   <div key={categoryIndex}>
@@ -1002,10 +987,10 @@ export default function PhaseDetail() {
                   <Terminal className="w-5 h-5 mr-2 text-green-400" />
                   Code Examples
                 </h2>
-                
+
                 <div className="space-y-6">
-                  {phase.codeSnippets.map((snippet, index) => (
-                    <div key={index} className="bg-slate-900 rounded-lg overflow-hidden">
+                  {phase.codeSnippets.map((snippet) => (
+                    <div key={snippet.id} className="bg-slate-900 rounded-lg overflow-hidden">
                       <div className="bg-slate-800 px-4 py-2 border-b border-slate-700">
                         <h4 className="text-sm font-medium text-slate-200">{snippet.title}</h4>
                       </div>
@@ -1068,8 +1053,8 @@ export default function PhaseDetail() {
             >
               <h3 className="text-lg font-bold text-slate-100 mb-4">Deliverables</h3>
               <div className="space-y-2">
-                {phase.deliverables.map((deliverable, index) => (
-                  <div key={index} className="flex items-start gap-2">
+                {phase.deliverables.map((deliverable) => (
+                  <div key={deliverable} className="flex items-start gap-2">
                     <CheckCircle className="w-4 h-4 text-green-400 flex-shrink-0 mt-0.5" />
                     <span className="text-slate-300 text-sm">{deliverable}</span>
                   </div>
@@ -1078,7 +1063,7 @@ export default function PhaseDetail() {
             </motion.div>
 
             {/* Milestone */}
-            {phase.milestone && (
+            {milestone && (
               <motion.div
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
@@ -1103,8 +1088,8 @@ export default function PhaseDetail() {
               >
                 <h3 className="text-lg font-bold text-purple-300 mb-4">Personal Notes</h3>
                 <div className="space-y-2">
-                  {phase.personalNotes.map((note, index) => (
-                    <p key={index} className="text-purple-200 text-sm leading-relaxed">
+                  {phase.personalNotes.map((note) => (
+                    <p key={note} className="text-purple-200 text-sm leading-relaxed">
                       • {note}
                     </p>
                   ))}
