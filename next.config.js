@@ -4,6 +4,7 @@ const nextConfig = {
     optimizeCss: true,
     scrollRestoration: true,
     serverComponentsExternalPackages: ["stripe", "nodemailer"],
+    optimizePackageImports: ["date-fns", "lucide-react"],
   },
   images: {
     domains: ["images.unsplash.com", "res.cloudinary.com", "brightwell.com"],
@@ -63,4 +64,8 @@ const nextConfig = {
   },
 };
 
-module.exports = nextConfig;
+const withBundleAnalyzer = require("@next/bundle-analyzer")({
+  enabled: process.env.ANALYZE === "true",
+});
+
+module.exports = withBundleAnalyzer(nextConfig);
