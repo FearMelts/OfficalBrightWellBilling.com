@@ -18,12 +18,14 @@
     "e2e:ui": "playwright test --ui",
     "clean": "rm -rf .next dist out",
     "analyze": "cross-env ANALYZE=true next build",
+    "optimize": "node scripts/build-optimize.js",
+    "build:optimized": "npm run optimize",
     "postbuild": "next-sitemap",
     "security:audit": "next security",
     "validate": "next-sitemap --validate"
   },
   "dependencies": {
-    "@next": "^15.4.5",
+    "next": "^15.4.5",
     "react": "^19.1.1",
     "react-dom": "^19.1.1",
     "typescript": "^5.9.2",
