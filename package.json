@@ -18,6 +18,8 @@
     "e2e:ui": "playwright test --ui",
     "clean": "rm -rf .next dist out",
     "analyze": "cross-env ANALYZE=true next build",
+    "optimize": "node scripts/build-optimize.js",
+    "build:optimized": "npm run optimize",
     "postbuild": "next-sitemap",
     "security:audit": "next security",
     "validate": "next-sitemap --validate"

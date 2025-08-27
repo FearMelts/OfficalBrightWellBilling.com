@@ -4,7 +4,13 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 
-const inter = Inter({ subsets: ["latin"] });
+// Optimized font loading with display swap for better performance
+const inter = Inter({ 
+  subsets: ["latin"],
+  display: 'swap',
+  preload: true,
+  fallback: ['system-ui', 'arial'],
+});
 
 /**
  * Metadata configuration for the BrightWell Billing application.
@@ -73,10 +79,7 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * The root layout component for the BrightWell Billing application.
- * Wraps all pages with theme provider, global styles, and toaster notifications.
- */
+
 export default function RootLayout({
   children,
 }: {
@@ -85,11 +88,21 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <link rel="icon" href="/favicon.ico" sizes="any" />
+        {/* Optimized favicon and icons */}
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/icon.svg" type="image/svg+xml" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/manifest.json" />
         <meta name="theme-color" content="#8b5cf6" />
+        
+        {/* Performance optimization hints */}
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://res.cloudinary.com" />
+        
+        {/* Critical CSS inlining hint */}
+        <meta name="color-scheme" content="dark light" />
       </head>
       <body className={inter.className}>
         <ThemeProvider>
@@ -98,6 +111,25 @@ export default function RootLayout({
             <Toaster />
           </div>
         </ThemeProvider>
+        
+        {/* Performance monitoring script */}
+        {process.env.NODE_ENV === 'development' && (
+          <script
+            dangerouslySetInnerHTML={{
+              __html: `
+                // Development performance monitoring
+                if (typeof window !== 'undefined') {
+                  window.addEventListener('load', () => {
+                    console.log('Page loaded, initializing performance monitoring...');
+                    import('/lib/performance/monitor.js').then(module => {
+                      module.getPerformanceMonitor();
+                    });
+                  });
+                }
+              `,
+            }}
+          />
+        )}
       </body>
     </html>
   );
