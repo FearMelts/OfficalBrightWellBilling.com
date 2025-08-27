@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * BrightWell Billing - Complete Homepage with All Components
  * Professional medical billing platform with dark theme and comprehensive sections
@@ -22,12 +24,11 @@ import {
 } from "lucide-react";
 import dynamic from "next/dynamic";
 import React, { useRef } from "react";
+import dynamic from "next/dynamic";
+import { LazyLoadOnScroll } from "@/lib/performance/lazyLoading";
 
-// Lazy load heavy components for better performance
-const LazyBlogSection = dynamic(() => import("../components/BlogSection").then(mod => ({ default: mod.BlogSection })), {
-  loading: () => <div className="h-96 bg-card/50 animate-pulse rounded-xl" />,
-  ssr: false,
 });
+
 
 const LazyContactForm = dynamic(() => import("../components/ContactForm").then(mod => ({ default: mod.ContactForm })), {
   loading: () => <div className="h-96 bg-card/50 animate-pulse rounded-xl" />,
@@ -277,116 +278,3 @@ export default function HomePage() {
                 <p className="text-muted-foreground">{feature.description}</p>
               </motion.div>
             ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Stats Section */}
-      <motion.section
-        className="py-20 px-6 bg-accent/5"
-        variants={staggerContainer}
-        initial="hidden"
-        whileInView="visible"
-        viewport={{ once: true }}
-      >
-        <div className="max-w-7xl mx-auto">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
-            {stats.map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                className="text-center"
-                variants={slideIn}
-                custom={index}
-              >
-                <div className="text-4xl font-bold text-primary mb-2">
-                  {stat.value}
-                </div>
-                <div className="text-muted-foreground">{stat.label}</div>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </motion.section>
-
-      {/* Lazy loaded sections with intersection observer */}
-      <div className="space-y-0">
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "200px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <LazyServicePages />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "200px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <LazyVideoTestimonials />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "200px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <LazyBlogSection />
-        </motion.div>
-
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true, margin: "200px" }}
-          transition={{ duration: 0.5 }}
-        >
-          <LazyContactForm />
-        </motion.div>
-      </div>
-    </div>
-  );
-}
-
-// Static data moved outside component to prevent re-creation
-const features = [
-  {
-    icon: CreditCard,
-    title: "Automated Billing",
-    description: "Streamline your billing process with automated invoicing and payment collection.",
-  },
-  {
-    icon: Shield,
-    title: "Secure Payments",
-    description: "Bank-level security ensures your financial data is always protected.",
-  },
-  {
-    icon: BarChart3,
-    title: "Analytics Dashboard",
-    description: "Get insights into your billing performance with detailed analytics.",
-  },
-  {
-    icon: Users,
-    title: "Client Management",
-    description: "Manage all your clients and their billing information in one place.",
-  },
-  {
-    icon: FileText,
-    title: "Custom Invoices",
-    description: "Create professional, branded invoices that reflect your business.",
-  },
-  {
-    icon: Headphones,
-    title: "24/7 Support",
-    description: "Get help whenever you need it with our round-the-clock support team.",
-  },
-];
-
-const stats = [
-  { value: "99.9%", label: "Uptime" },
-  { value: "10M+", label: "Invoices Processed" },
-  { value: "50K+", label: "Happy Customers" },
-  { value: "24/7", label: "Support Available" },
-];

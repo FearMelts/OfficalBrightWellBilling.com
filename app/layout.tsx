@@ -1,4 +1,4 @@
-import { ThemeProvider } from "@/components/theme-provider";
+import { ThemeProvider } from "@/components/ThemeProvider";
 import { Toaster } from "@/components/ui/toaster";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
@@ -79,10 +79,7 @@ export const metadata: Metadata = {
   },
 };
 
-/**
- * The root layout component for the BrightWell Billing application.
- * Optimized for performance with minimal JavaScript and improved loading.
- */
+
 export default function RootLayout({
   children,
 }: {
@@ -108,12 +105,7 @@ export default function RootLayout({
         <meta name="color-scheme" content="dark light" />
       </head>
       <body className={inter.className}>
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="system"
-          enableSystem
-          disableTransitionOnChange
-        >
+        <ThemeProvider>
           <div className="relative min-h-screen bg-background">
             {children}
             <Toaster />

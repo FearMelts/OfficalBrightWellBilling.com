@@ -7,18 +7,7 @@ const nextConfig = {
   experimental: {
     optimizeCss: true,
     scrollRestoration: true,
-    serverComponentsExternalPackages: ["stripe", "nodemailer"],
-    optimizePackageImports: [
-      'framer-motion', 
-      'lucide-react', 
-      '@radix-ui/react-accordion',
-      '@radix-ui/react-dialog',
-      '@radix-ui/react-dropdown-menu',
-      '@radix-ui/react-navigation-menu',
-      '@radix-ui/react-tooltip',
-      '@radix-ui/react-toast',
-      '@radix-ui/react-switch'
-    ],
+    serverComponentsExternalPackages: ["stripe", "nodemailer",
   },
   images: {
     domains: ["images.unsplash.com", "res.cloudinary.com", "brightwell.com"],
@@ -115,5 +104,4 @@ const nextConfig = {
     return config;
   },
 };
-
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = withBundleAnalyzer(nextConfig)
