@@ -1,3 +1,5 @@
+"use client";
+
 /**
  * BrightWell Billing - Complete Homepage with All Components
  * Professional medical billing platform with dark theme and comprehensive sections
@@ -20,12 +22,14 @@ import {
   Zap,
 } from "lucide-react";
 import React, { useRef } from "react";
+import dynamic from "next/dynamic";
+import { LazyLoadOnScroll } from "@/lib/performance/lazyLoading";
 
-// Import all components
-import { BlogSection } from "../components/BlogSection";
-import { ContactForm } from "../components/ContactForm";
-import { ServicePages } from "../components/ServicePages";
-import { VideoTestimonials } from "../components/VideoTestimonials";
+// Lazy components
+const BlogSection = dynamic(() => import("@/components/BlogSection").then(m => ({ default: m.BlogSection })), { ssr: false });
+const ContactForm = dynamic(() => import("@/components/ContactForm").then(m => ({ default: m.ContactForm })), { ssr: false });
+const ServicePages = dynamic(() => import("@/components/ServicePages"), { ssr: false });
+const VideoTestimonials = dynamic(() => import("@/components/VideoTestimonials").then(m => ({ default: m.VideoTestimonials })), { ssr: false });
 
 /**
  * Animation variants for consistent motion design
@@ -367,12 +371,16 @@ export default function Home() {
 
       {/* Service Pages Component */}
       <section id="services">
-        <ServicePages />
+        <LazyLoadOnScroll>
+          <ServicePages />
+        </LazyLoadOnScroll>
       </section>
 
       {/* Video Testimonials Component */}
       <section id="testimonials">
-        <VideoTestimonials />
+        <LazyLoadOnScroll>
+          <VideoTestimonials />
+        </LazyLoadOnScroll>
       </section>
 
       {/* Analytics & Compliance Section */}
@@ -517,7 +525,9 @@ export default function Home() {
 
       {/* Blog Section Component */}
       <section id="insights">
-        <BlogSection />
+        <LazyLoadOnScroll>
+          <BlogSection />
+        </LazyLoadOnScroll>
       </section>
 
       {/* Contact Section */}

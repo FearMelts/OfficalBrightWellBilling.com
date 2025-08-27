@@ -2,7 +2,7 @@
 
 import { motion } from "framer-motion";
 import dynamic from "next/dynamic";
-import { ComponentType, ReactNode, Suspense, lazy } from "react";
+import { ComponentType, ReactNode, Suspense, lazy, useEffect, useRef, useState } from "react";
 
 // Generic loading component
 export function LoadingSpinner({ size = "md" }: { size?: "sm" | "md" | "lg" }) {
